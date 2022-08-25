@@ -1,0 +1,63 @@
+html {
+    background-color: darkslategray;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.ancient {
+    max-width: 400px;
+    height: fit-content;
+}
+
+.ancients-list {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.deck-config {
+    display: inline-flex;
+    gap: 1rem;
+    flex-direction: column;
+    margin: 1rem;
+}
+
+.deck-config__stage {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.stage__item {
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.stage__green {
+    background-color: green;
+}
+
+.stage__brown {
+    background-color: brown;
+}
+
+.stage__blue {
+    background-color: cornflowerblue;
+}
+
+.stage__name {
+    background-color: gainsboro;
+    padding: 3px 6px;
+}
+
+.shuffle-deck,
+.diff-btns {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+}
