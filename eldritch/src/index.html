@@ -11,15 +11,36 @@
 </head>
 
 <body>
-    <section class="ancients-list"></section>
-    <div class="diff-btns">
-        <button class="diff-btn" data-diff="veasy">Очень легко</button>
-        <button class="diff-btn" data-diff="easy">Легко</button>
-        <button class="diff-btn" data-diff="normal">Средне</button>
-        <button class="diff-btn" data-diff="hard">Сложно</button>
-        <button class="diff-btn" data-diff="vhard">Очень сложно</button>
-    </div>
-    <button class="shuffle-deck">Замешать колоду</button>
+    <main class="main">
+        <h1 class="main__h1">Eldritch Horror</h1>
+        <p class="main__sub-heading">Выберите противника</p>
+        <section class="ancients-list"></section>
+        <div class="game">
+            <div class="diff-btns">
+                <div class="diff-btns__item">
+                    <button class="diff-btn" data-diff="veasy">Очень легко</button>
+                    <div class="diff-description">Самые простые карты</div>
+                </div>
+                <div class="diff-btns__item">
+                    <button class="diff-btn" data-diff="easy">Легко</button>
+                    <div class="diff-description">Самые сложные карты убраны</div>
+                </div>
+                <div class="diff-btns__item">
+                    <button class="diff-btn" data-diff="normal">Средне</button>
+                    <div class="diff-description">Колода неизменна</div>
+                </div>
+                <div class="diff-btns__item">
+                    <button class="diff-btn" data-diff="hard">Сложно</button>
+                    <div class="diff-description">Простых карт нет</div>
+                </div>
+                <div class="diff-btns__item">
+                    <button class="diff-btn" data-diff="vhard">Очень сложно</button>
+                    <div class="diff-description">Играете с самыми сложными картами</div>
+                </div>
+                <button class="shuffle-deck">Замешать колоду</button>
+            </div>
+        </div>
+    </main>
 </body>
 
 </html>

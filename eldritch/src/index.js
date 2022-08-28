@@ -11,6 +11,9 @@ import bluesImport from './data/mythicCards/blue/index';
 const ancientsList = document.querySelector('.ancients-list');
 const diffBtns = document.querySelector('.diff-btns');
 const shuffleDeck = document.querySelector('.shuffle-deck');
+const mainTag = document.querySelector('.main');
+const gameTag = document.querySelector('.game');
+const subHeading = document.querySelector('.main__sub-heading');
 
 shuffleArr(brownsImport);
 shuffleArr(greensImport);
@@ -35,9 +38,15 @@ function showAncients() {
         let img = e.target.closest('img');
         if (!img) return;
         if (!ancientsList.contains(img)) return;
-        if (selectedAncient) selectedAncient.style.outline = 'unset';
+        // if (selectedAncient) selectedAncient.style.outline = 'unset';
         selectedAncient = img;
-        selectedAncient.style.outline = '2px solid red';
+        document.querySelector('.ancients-list').style.display = 'none';
+        // selectedAncient.style.outline = '2px solid red';
+        // const allBosses = document.querySelectorAll('.ancient');
+        // allBosses.forEach(elem => elem.classList.add('hidden'));
+        // selectedAncient.classList.add('visible');
+        gameTag.insertBefore(selectedAncient, diffBtns);
+        subHeading.textContent = 'Выберите сложность игры';
 
         deckConfig.boss = img.dataset.boss;
         deckConfig.greens = ancientsData[img.dataset.boss].firstStage.greenCards +
@@ -54,7 +63,6 @@ function showAncients() {
         deckConfig.thirdStage = ancientsData[img.dataset.boss].thirdStage;
 
         diffBtns.classList.add('visible');
-
     }
 }
 showAncients();
@@ -103,7 +111,7 @@ function showCardImg(firstPhaseDeck, secondPhaseDeck, thirdPhaseDeck) {
         let shiftedCard = allPhasesArr.shift()
         showingImg.src = shiftedCard.cardFace;
         showingImg.classList.add('showing-card');
-        document.body.appendChild(showingImg);
+        mainTag.appendChild(showingImg);
 
         if (shiftedCard.color === 'green') {
             if (document.querySelector('.green-1').textContent > 0) document.querySelector('.green-1').textContent -= 1;
@@ -131,7 +139,7 @@ function showCardFace() {
     const cardFace = new Image();
     cardFace.src = cardFaceSrc;
     cardFace.classList.add('card-face');
-    document.body.appendChild(cardFace);
+    mainTag.appendChild(cardFace);
 }
 
 function showPhaseDecks(firstPhaseDeck, secondPhaseDeck, thirdPhaseDeck) {
@@ -191,7 +199,7 @@ function showPhaseDecks(firstPhaseDeck, secondPhaseDeck, thirdPhaseDeck) {
                 break;
         }
 
-        document.body.appendChild(deckConfigDiv);
+        mainTag.appendChild(deckConfigDiv);
         deckConfigDiv.appendChild(stageName);
         deckConfigDiv.appendChild(stage);
         stage.appendChild(green);
