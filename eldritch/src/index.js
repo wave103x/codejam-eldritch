@@ -2,7 +2,7 @@
 import ancients from './assets/Ancients/index.js';
 import ancientsData from './data/ancients.js';
 import './style.css';
-import cardFaceSrc from './assets/mythicCardBackground.png';
+import './assets/mythicCardBackground.png';
 import greensImport from './data/mythicCards/green/index';
 import brownsImport from './data/mythicCards/brown/index';
 import bluesImport from './data/mythicCards/blue/index';
@@ -28,28 +28,31 @@ const deckConfig = {
 
 function showAncients() {
     for (let key in ancients) {
+        const ancientWrapper = document.createElement('div');
+        ancientWrapper.classList.add('ancient-wrapper');
         const ancientImg = new Image();
         ancientImg.classList.add('ancient');
         ancientImg.src = ancients[key];
         ancientImg.dataset.boss = key;
-        ancientsList.appendChild(ancientImg);
+        ancientsList.appendChild(ancientWrapper);
+        ancientWrapper.appendChild(ancientImg);
     };
+
     let selectedAncient;
     ancientsList.onclick = (e) => {
-        let img = e.target.closest('img');
-        if (!img) return;
-        if (!ancientsList.contains(img)) return;
-        // if (selectedAncient) selectedAncient.style.outline = 'unset';
+        const div = e.target.closest('div');
+        if (!div) return;
+        if (!ancientsList.contains(div)) return;
+        const img = div.firstElementChild;
         selectedAncient = img;
-        document.querySelector('.ancients-list').style.display = 'none';
-        // selectedAncient.style.outline = '2px solid red';
-        // const allBosses = document.querySelectorAll('.ancient');
-        // allBosses.forEach(elem => elem.classList.add('hidden'));
-        // selectedAncient.classList.add('visible');
+
         firstView.classList.toggle('hidden');
         secondView.classList.toggle('hidden');
+        newGameBtn.classList.remove('hidden');
         secondView.insertBefore(selectedAncient, diffBtns);
-        subHeading.textContent = 'Выберите сложность игры';
+        selectedAncient.classList.remove('ancient');
+        selectedAncient.classList.add('choosen-ancient');
+        subHeading.textContent = 'Какой путь тебе по силам?';
 
         deckConfig.boss = img.dataset.boss;
         deckConfig.greens = ancientsData[img.dataset.boss].firstStage.greenCards +
@@ -64,23 +67,23 @@ function showAncients() {
         deckConfig.firstStage = ancientsData[img.dataset.boss].firstStage;
         deckConfig.secondStage = ancientsData[img.dataset.boss].secondStage;
         deckConfig.thirdStage = ancientsData[img.dataset.boss].thirdStage;
+        window.scrollTo(0, 0);
     }
 }
 showAncients();
 
-//set difficulty
+
+//main func
+
 diffBtns.onclick = (e) => {
+    window.scrollTo(0, 0);
     let target = e.target;
     if (target.tagName !== 'BUTTON') return;
     deckConfig.difficulty = target.dataset.diff;
-    shuffleDeck.classList.toggle('hidden')
-}
 
-//main func
-shuffleDeck.onclick = () => {
     secondView.classList.add('hidden');
     thirdView.classList.toggle('hidden');
-    subHeading.textContent = 'Играйте игру';
+    subHeading.textContent = `Сражение против ${deckConfig.boss[0].toUpperCase()}${deckConfig.boss.slice(1)}`;
 
     const greensArr = [];
     const brownsArr = [];
@@ -98,6 +101,7 @@ shuffleDeck.onclick = () => {
 }
 
 newGameBtn.onclick = () => {
+    window.scrollTo(0, 0);
     location.reload();
     return false;
 }
@@ -123,7 +127,9 @@ function showCardImg(firstPhaseDeck, secondPhaseDeck, thirdPhaseDeck) {
 
     document.querySelector('.next-card-btn').onclick = () => {
         if (!allPhasesArr.length) return;
-        let shiftedCard = allPhasesArr.shift()
+
+        let shiftedCard = allPhasesArr.shift();
+        showingImg.onload = function(){};
         showingImg.src = shiftedCard.cardFace;
 
         if (shiftedCard.color === 'green') {
@@ -203,8 +209,8 @@ function showPhaseDecks(firstPhaseDeck, secondPhaseDeck, thirdPhaseDeck) {
         }
 
         thirdView.appendChild(deckConfigDiv);
-        deckConfigDiv.appendChild(stageName);
         deckConfigDiv.appendChild(stage);
+        deckConfigDiv.appendChild(stageName);
         stage.appendChild(green);
         stage.appendChild(brown);
         stage.appendChild(blue);
@@ -363,3 +369,7 @@ function shuffleArr(array) {
     }
     return array;
 }
+
+window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+  }
