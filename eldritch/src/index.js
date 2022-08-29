@@ -11,14 +11,15 @@ import bluesImport from './data/mythicCards/blue/index';
 const ancientsList = document.querySelector('.ancients-list');
 const diffBtns = document.querySelector('.diff-btns');
 const shuffleDeck = document.querySelector('.shuffle-deck');
-const mainTag = document.querySelector('.main');
-const gameTag = document.querySelector('.game');
-const subHeading = document.querySelector('.main__sub-heading');
+const firstView = document.querySelector('.first-view');
+const secondView = document.querySelector('.second-view');
+const thirdView = document.querySelector('.third-view');
+const subHeading = document.querySelector('.sub-heading');
+const newGameBtn = document.querySelector('.new-game-btn');
 
 shuffleArr(brownsImport);
 shuffleArr(greensImport);
 shuffleArr(bluesImport);
-
 
 const deckConfig = {
     boss: '',
@@ -45,7 +46,9 @@ function showAncients() {
         // const allBosses = document.querySelectorAll('.ancient');
         // allBosses.forEach(elem => elem.classList.add('hidden'));
         // selectedAncient.classList.add('visible');
-        gameTag.insertBefore(selectedAncient, diffBtns);
+        firstView.classList.toggle('hidden');
+        secondView.classList.toggle('hidden');
+        secondView.insertBefore(selectedAncient, diffBtns);
         subHeading.textContent = 'Выберите сложность игры';
 
         deckConfig.boss = img.dataset.boss;
@@ -61,8 +64,6 @@ function showAncients() {
         deckConfig.firstStage = ancientsData[img.dataset.boss].firstStage;
         deckConfig.secondStage = ancientsData[img.dataset.boss].secondStage;
         deckConfig.thirdStage = ancientsData[img.dataset.boss].thirdStage;
-
-        diffBtns.classList.add('visible');
     }
 }
 showAncients();
@@ -72,10 +73,15 @@ diffBtns.onclick = (e) => {
     let target = e.target;
     if (target.tagName !== 'BUTTON') return;
     deckConfig.difficulty = target.dataset.diff;
-    shuffleDeck.classList.add('visible')
+    shuffleDeck.classList.toggle('hidden')
 }
 
+//main func
 shuffleDeck.onclick = () => {
+    secondView.classList.add('hidden');
+    thirdView.classList.toggle('hidden');
+    subHeading.textContent = 'Играйте игру';
+
     const greensArr = [];
     const brownsArr = [];
     const bluesArr = [];
@@ -88,11 +94,18 @@ shuffleDeck.onclick = () => {
 
     showPhaseDecks(firstPhaseDeck, secondPhaseDeck, thirdPhaseDeck);
 
-    showCardFace();
-
     showCardImg(firstPhaseDeck, secondPhaseDeck, thirdPhaseDeck);
 }
 
+newGameBtn.onclick = () => {
+    location.reload();
+    return false;
+}
+
+
+
+
+// logic ends
 
 function showCardImg(firstPhaseDeck, secondPhaseDeck, thirdPhaseDeck) {
     const firstPhaseArr = firstPhaseDeck.greenCards.concat(firstPhaseDeck.brownCards, firstPhaseDeck.blueCards).flat();
@@ -104,14 +117,14 @@ function showCardImg(firstPhaseDeck, secondPhaseDeck, thirdPhaseDeck) {
 
     const allPhasesArr = firstPhaseArr.concat(secondPhaseArr, thirdPhaseArr);
 
-    document.querySelector('.card-face').onclick = () => {
+    const showingImg = new Image();
+    showingImg.classList.add('showing-card');
+    thirdView.appendChild(showingImg);
+
+    document.querySelector('.next-card-btn').onclick = () => {
         if (!allPhasesArr.length) return;
-        if (document.querySelector('.showing-card')) document.querySelector('.showing-card').remove();
-        const showingImg = new Image();
         let shiftedCard = allPhasesArr.shift()
         showingImg.src = shiftedCard.cardFace;
-        showingImg.classList.add('showing-card');
-        mainTag.appendChild(showingImg);
 
         if (shiftedCard.color === 'green') {
             if (document.querySelector('.green-1').textContent > 0) document.querySelector('.green-1').textContent -= 1;
@@ -131,16 +144,6 @@ function showCardImg(firstPhaseDeck, secondPhaseDeck, thirdPhaseDeck) {
     }
 }
 
-
-
-function showCardFace() {
-    if (document.querySelector('.card-face')) document.querySelector('.card-face').remove();
-    if (document.querySelector('.showing-card')) document.querySelector('.showing-card').remove();
-    const cardFace = new Image();
-    cardFace.src = cardFaceSrc;
-    cardFace.classList.add('card-face');
-    mainTag.appendChild(cardFace);
-}
 
 function showPhaseDecks(firstPhaseDeck, secondPhaseDeck, thirdPhaseDeck) {
     if (document.querySelector('.deck-config')) document.querySelector('.deck-config').remove();
@@ -199,13 +202,17 @@ function showPhaseDecks(firstPhaseDeck, secondPhaseDeck, thirdPhaseDeck) {
                 break;
         }
 
-        mainTag.appendChild(deckConfigDiv);
+        thirdView.appendChild(deckConfigDiv);
         deckConfigDiv.appendChild(stageName);
         deckConfigDiv.appendChild(stage);
         stage.appendChild(green);
         stage.appendChild(brown);
         stage.appendChild(blue);
     }
+    const nextCardBtn = document.createElement('button');
+    nextCardBtn.classList.add('next-card-btn', 'main-btn');
+    nextCardBtn.textContent = 'Играть карту';
+    deckConfigDiv.appendChild(nextCardBtn);
 }
 
 

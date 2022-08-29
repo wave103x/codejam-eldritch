@@ -12,6 +12,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Eldritch',
             template: './src/index.html',
+            favicon: './src/assets/favicon.ico',
         }),
         new MiniCssExtractPlugin({
             filename: 'style.css',
