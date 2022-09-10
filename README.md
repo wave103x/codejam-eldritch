@@ -6,7 +6,7 @@
 ### Shuffle rules:
 There are three types of cards with three difficuties each: *green*, *brown*, *blue* and **easy, normal, hard** respectively.
 - Easy cards with snowflakes
-- Hard ones with tentales
+- Hard ones with tentacles
 - Normal ones without any decorations
 
 ### First step
